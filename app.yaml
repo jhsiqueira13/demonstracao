@@ -1,0 +1,44 @@
+runtime: custom
+env: flex
+
+manual_scaling:
+  instances: 1
+
+resources:
+  cpu: 1
+  memory_gb: 4
+
+liveness_check:
+  path: "/health"
+  check_interval_sec: 30
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+
+readiness_check:
+  path: "/health"
+  check_interval_sec: 10
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+  app_start_timeout_sec: 1800
+
+handlers:
+- url: /.*
+  script: this field is required, but ignored
+  secure: always
+  redirect_http_response_code: 301
+
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+- ^(.*/)?.*\.bak$
+- ^node_modules/(.*/)?
+- \.gitignore
+- ^\.git/.*
+
+env_variables:
+  producao_google: true
